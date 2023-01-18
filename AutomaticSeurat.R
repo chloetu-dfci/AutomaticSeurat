@@ -391,7 +391,7 @@ Normalize_and_Integrate <- function(sample_list.fully_filtered){
 ####### Big SCTransform and Merging Function ----
 Normalize_and_Merge <- function(sample_list.fully_filtered){
   sample_list.fully_filtered <- lapply(X = sample_list.fully_filtered, FUN = SCTransform)
-  merged_obj <- merge(sample_list.fully_filtered[[1]], y = sample_list.fully_filtered[[c(2:length(sample_list.fully_filtered))]])
+  merged_obj <- merge(sample_list.fully_filtered[[1]], y = sample_list.fully_filtered[c(2:length(sample_list.fully_filtered))])
   VariableFeatures(merged_obj[["SCT"]]) <- rownames(merged_obj[["SCT"]]@scale.data)
   merged_obj <- RunPCA(merged_obj, verbose = FALSE)
   merged_obj <- RunUMAP(merged_obj, reduction = "pca", dims = 1:30)
@@ -491,6 +491,14 @@ print(paste0("Species: ", species))
 
 ### Run commands ---
 pdf(paste0(output_dir,pdf_name), width = 6, height = 6)
+
+# Testing
+# sample_names = c("spleen1", "spleen2", "spleen3")
+# file_names = c("Pool115-1_2-Spleen1CNT", "Pool115-1_3-Spleen2CNT", "Pool115-1_4-Spleen3CNT")
+# data_dir = "/Users/chloetu/Desktop/Anna_exp/cDNA/"
+# output_dir = "/Users/chloetu/Desktop/test_folder"
+# species = "mouse"
+# gene_vec = c("Atg7", "Cd8a")
 
 filtered_samples.list <- Loading_and_QC(output_dir,sample_names,file_names, data_dir, species)
 print("Loading and QC done")
