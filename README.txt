@@ -40,6 +40,7 @@ Example of how to run RunAutomaticSeurat.sh as a job on the Broad's server:
 > ssh <yourLogin>@login.broadinstitute.org
 > use UGER
 > cd <thelocationOfRunAutomaticSeurat.sh>
+> chmod u+x RunAutomaticSeurat.sh # only need to do this once
 > qsub -l h_vmem=16G RunAutomaticSeurat.sh -n sample1,sample2,sample3 -f folder1/sample1,folder2/sample2,folder3/sample3 -o /home/unix/outputFolder/ -d /home/unix/dataFolder/ -p outputFigures.pdf -g gene1,gene2,gene3 -i false -s mouse
 
 
