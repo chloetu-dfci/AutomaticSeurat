@@ -1,4 +1,4 @@
-This is the README file for AutomaticSeurat.R
+This is the README file for RunAutomaticSeurat.sh and AutomaticSeurat.R
 
 This script will take in several 10X samples, and automatically filter cells from each sample based on mitochondrial gene contamination, HBB gene contamination and standard deviation of features and count. Each sample is normalized using SCTransform, then all samples are integrated or merged together. The combined object is plotted using UMAP, where the given genes are visualized. The combined object is clustered using three resolutions. At each resolution, firstly, the proportion of cells in each cluster is visualized and saved as a CSV file. Secondly, the DEG in each cluster is saved as a CSV file.
 
@@ -16,6 +16,38 @@ Output:
 3. Three csv files containing the differentially expressed genes in each cluster
 4. Three csv files containing the number of cells in each cluster and sample
 
+
+
+OPTION 1: SUBMITTING RunAutomaticSeurat.sh AS A JOB
+###---
+Assumptions:
+1) AutomaticSeurat.R is in the same directory as referenced in "-d" (ie. in /home/unix/dataFolder/)
+2) You have 10X data
+
+Arguments:
+-n: Names to give your samples. Samples must be separated by commas, no spaces in between.
+-f: File names of your samples. File names must be separated by commas, no spaces in between.
+-o: Directory where output PDF file and CSV files will go
+-d: Directory where input data files can be found
+-p: Name to give your pdf
+-g: A list of genes which expression you want to visualize in your samples. Genes must be separated by commas, no spaces in between.
+-i: "true" if you want to integrate the samples together. "false" if you want to merge the samples.
+-s: Species of your samples. Valid arguments are "human" or "mouse"
+
+###---
+Example of how to run RunAutomaticSeurat.sh as a job on the Broad's server:
+
+> ssh <yourLogin>@login.broadinstitute.org
+> use UGER
+> cd <thelocationOfRunAutomaticSeurat.sh>
+> qsub -l h_vmem=16G RunAutomaticSeurat.sh -n sample1,sample2,sample3 -f folder1/sample1,folder2/sample2,folder3/sample3 -o /home/unix/outputFolder/ -d /home/unix/dataFolder/ -p outputFigures.pdf -g gene1,gene2,gene3 -i false -s mouse
+
+
+# real example: qsub -l h_vmem=32G RunAutomaticSeurat.sh -n spleen1,spleen2,spleen3 -f spleen1,spleen2,spleen3 -o /home/unix/tu/test_folder/ -d /home/unix/tu/test_folder/ -p outputFigures2.pdf -g Cd8a -i false -s mouse
+
+
+
+OPTION 2: RUNNING AutomaticSeurat.R AS NON-JOB
 ###---
 Arguments:
 --sampleNames: Names to give your samples. Samples must be separated by commas, no spaces in between.
@@ -39,6 +71,7 @@ You need these R packages: Seurat, ggplot2, dplyr, tidyverse, gridExtra, grid, s
 > Rscript AutomaticSeurat.R --sampleNames sample1,sample2,sample3 --fileNames sampleFolder1,sampleFolder2,sampleFolder3 --outputDir /home/unix/outputFolder/ --dataDir /home/unix/dataFolder/ --pdfName outputFigures.pdf --geneVec gene1,gene2,gene3 --integrate false --species mouse
 
 
+
 ###---
 FAQ:
 1) "Warning messages: Removed 2 rows containing missing values (geom_vline)" error while running script
@@ -60,4 +93,6 @@ c. --dataDir must point to the directory containing the "filtered_feature_bc_mat
 5) Stuck on "Calculating cluster X"?
 Don't worry. It can take a while.
 
+6) Script isn't executable?
+chmod u+x RunAutomaticSeurat.sh
 
