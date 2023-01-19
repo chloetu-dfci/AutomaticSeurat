@@ -16,4 +16,4 @@ while getopts n:f:o:d:p:g:i:s: flag; do
     esac
 done
 
-Rscript $dataDir/AutomaticSeurat.R --sampleNames $sampleNames --fileNames $fileNames --outputDir $outputDir --dataDir $dataDir --pdfName $pdfName --geneVec $geneVec --integrate $integrate --species $species
+Rscript $dataDir/AutomaticSeuratScripts/AutomaticSeurat.R --sampleNames $sampleNames --fileNames $fileNames --outputDir $outputDir --dataDir $dataDir --pdfName $pdfName --geneVec $geneVec --integrate $integrate --species $species
