@@ -427,9 +427,9 @@ Cluster_and_Annotate <- function(full_obj, gene_vec, output_dir, integration_boo
       # full_obj <- PrepSCTFindMarkers(full_obj)
     }
     cells_per_sample <- CellsByCluster(sample = full_obj, integrated = integration_bool, resolution = i)
-    # write.csv(cells_per_sample, file.path(output_dir, paste0("res_", i, "_cells_per_sample.csv")),
-    #           row.names = FALSE)
+    # write.csv(cells_per_sample, file.path(output_dir, paste0("res_", i, "_cells_per_sample.csv")), row.names = FALSE)
     PlotCellsByCluster(cells_per_sample = cells_per_sample, resolution = i)
+    Idents(full_obj) <- "orig.ident"
   }
   return(full_obj)
 }
@@ -503,7 +503,7 @@ pdf(paste0(output_dir,pdf_name), width = 6, height = 6)
 # species = "mouse"
 # gene_vec = c("Atg7", "Cd8a")
 # pdf_name = "test.pdf"
-# integration_bool = TRUE
+# integration_bool = FALSE
 
 filtered_samples.list <- Loading_and_QC(output_dir,sample_names,file_names, data_dir, species)
 print("Loading and QC done")

@@ -52,6 +52,10 @@ Example of how to run RunAutomaticSeurat.sh as a job on the Broad's server:
 STEP 2: SUBMITTING RunDEGAnalysis.sh AS A JOB
 
 ###---
+Assumptions:
+1) AutomaticSeurat.R is in the same directory as referenced in "-d" (ie. in /home/unix/dataFolder/)
+2) You have 10X data
+
 Arguments:
 -s: Name of the seurat object from RunAutomaticSeurat.sh. By default, the seurat object from RunAutomaticSeurat.sh is called "seurat_obj_after_analysis.RDS"
 -o: Directory where CSV files will go. It should be the same as the -o argument from RunAutomaticSeurat.sh
@@ -66,7 +70,7 @@ Example of how to run RunDEGAnalysis.sh as a job on the Broad's server:
 > qsub -l h_vmem=16G RunDEGAnalysis.sh -s seurat_obj_after_analysis.RDS -o /home/unix/outputFolder/ -d /home/unix/dataFolder/ -r 0.2
 
 
-# real example: qsub -l h_vmem=16G RunDEGAnalysis.sh -s seurat_obj_after_analysis.RDS -o /home/unix/tu/test_folder/ -d /home/unix/tu/test_folder/ -i false -r 0.2
+# real example: qsub -l h_vmem=16G,h_rt=3:00:00 RunDEGAnalysis.sh -s seurat_obj_after_analysis.RDS -o /home/unix/tu/test_folder/ -d /home/unix/tu/test_folder/ -i false -r 0.2
 
 
 

@@ -15,9 +15,15 @@ CellsByCluster <- function(sample, integrated = FALSE, resolution){
 }
 
 Analyse_Clusters <- function(full_obj, resolution, output_dir, integration_bool){
+  Idents(full_obj) <- "orig.ident"
   cells_per_sample <- CellsByCluster(sample = full_obj, integrated = integration_bool, resolution = resolution)
   write.csv(cells_per_sample, file.path(output_dir, paste0("res_", resolution, "_cells_per_sample.csv")))
   DefaultAssay(full_obj) <- "RNA"
+  if(integration_bool == TRUE){
+    Idents(full_obj) <- paste0("integrated_snn_res.", resolution)
+  } else {
+    Idents(full_obj) <- paste0("SCT_snn_res.", resolution)
+  }
   marker_list <- FindAllMarkers(full_obj)
   write.csv(marker_list, file.path(output_dir, paste0("res_", resolution, "_cluster_markers.csv")))
 }
